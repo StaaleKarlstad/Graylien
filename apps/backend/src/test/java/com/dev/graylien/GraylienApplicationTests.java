@@ -1,4 +1,4 @@
-package com.app.graylien;
+package com.dev.graylien;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
