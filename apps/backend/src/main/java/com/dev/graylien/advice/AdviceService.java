@@ -9,46 +9,48 @@ import com.dev.graylien.image.ImageNotFoundException;
 
 @Service
 public class AdviceService {
-    AdviceRepository valueTipsRepository;
+    AdviceRepository adviceRepository;
+    AdviceMapper adviceMapper;
     Random random = new Random();
 
-    public AdviceService(AdviceRepository valueTipsRepository){
-        this.valueTipsRepository = valueTipsRepository;
+    public AdviceService(AdviceRepository valueTipsRepository, AdviceMapper adviceMapper){
+        this.adviceRepository = valueTipsRepository;
+        this.adviceMapper = adviceMapper;
     }
 
-    List<AdviceEntity> getAll() {
-        return valueTipsRepository.findAll();
+    List<AdviceDTO> getAll() {
+        return adviceRepository.findAll().stream().map(entity -> adviceMapper.toDTO(entity)).toList();
     }
 
-    Optional<AdviceEntity> getById(Integer id) {
-        return valueTipsRepository.findById(id);
+    Optional<AdviceDTO> getById(Integer id) {
+        return adviceRepository.findById(id).map(adviceMapper::toDTO);
     }
 
     AdviceEntity getRandom() {
-        Integer index = (int) random.nextLong(valueTipsRepository.count());
-        Optional<AdviceEntity> tip = getById(index);
+        Integer index = (int) random.nextLong(adviceRepository.count());
+        Optional<AdviceEntity> tip = adviceRepository.findById(index);
         return tip.get();
     }
 
     void deleteAll() {
-        valueTipsRepository.deleteAll();
+        adviceRepository.deleteAll();
     }
 
     void delete(Integer id) {
-        valueTipsRepository.deleteById(id);
+        adviceRepository.deleteById(id);
     }
 
-    void update(AdviceEntity image, Integer id) {
-        Optional<AdviceEntity> img = getById(id);
-        if (img.isPresent()) {
-            AdviceEntity updatedImage = img.get();
-            updatedImage.setText(image.getText());
+    void update(AdviceDTO advice, Integer id) {
+        Optional<AdviceEntity> existingAdvice = adviceRepository.findById(id);
+        if (existingAdvice.isPresent()) {
+            AdviceEntity updatedImage = existingAdvice.get();
+            updatedImage.setText(advice.text());
         } else {
             throw new ImageNotFoundException();
         }
     }
 
-    void addOne(AdviceEntity image) {
-        valueTipsRepository.save(image);
+    void addOne(AdviceDTO advice) {
+        adviceRepository.save(adviceMapper.toEntity(advice));
     }
 }

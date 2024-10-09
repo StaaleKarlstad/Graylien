@@ -18,13 +18,13 @@ public class AdviceController {
     }
 
     @GetMapping("/tips")
-    public List<AdviceEntity> getAll() {
+    public List<AdviceDTO> getAll() {
         return valueTipsService.getAll();
     }
 
     @GetMapping("/tips/{id}")
-    public AdviceEntity getById(@PathVariable Integer id) {
-        Optional<AdviceEntity> vte = valueTipsService.getById(id);
+    public AdviceDTO getById(@PathVariable Integer id) {
+        Optional<AdviceDTO> vte = valueTipsService.getById(id);
         if (vte.isEmpty()) {
             throw new AdviceNotFoundException();
         }
@@ -32,12 +32,12 @@ public class AdviceController {
     }
 
     @PostMapping("/tips")
-    public void create(AdviceEntity vte) {
+    public void create(AdviceDTO vte) {
         valueTipsService.addOne(vte);
     }
 
     @PutMapping("/tips/{id}")
-    public void update(@PathVariable Integer id, @RequestBody AdviceEntity vte) {
+    public void update(@PathVariable Integer id, @RequestBody AdviceDTO vte) {
         valueTipsService.update(vte, id);
     }
 
