@@ -11,7 +11,6 @@ public class AdviceEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty
     @NotBlank
     private String text;
 
