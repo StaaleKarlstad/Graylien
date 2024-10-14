@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 public class AdviceController {
-    AdviceService valueTipsService;
+    AdviceService adviceService;
 
     public AdviceController(AdviceService valueTipsService) {
-        this.valueTipsService = valueTipsService;
+        this.adviceService = valueTipsService;
     }
 
     @GetMapping("/tips")
     public List<AdviceDTO> getAll() {
-        return valueTipsService.getAll();
+        return adviceService.getAll();
     }
 
     @GetMapping("/tips/{id}")
     public AdviceDTO getById(@PathVariable Integer id) {
-        Optional<AdviceDTO> vte = valueTipsService.getById(id);
+        Optional<AdviceDTO> vte = adviceService.getById(id);
         if (vte.isEmpty()) {
             throw new AdviceNotFoundException();
         }
@@ -32,22 +32,22 @@ public class AdviceController {
     }
 
     @PostMapping("/tips")
-    public void create(AdviceDTO vte) {
-        valueTipsService.addOne(vte);
+    public AdviceDTO create(CreateAdviceDTO vte) {
+        return adviceService.addOne(vte);
     }
 
     @PutMapping("/tips/{id}")
-    public void update(@PathVariable Integer id, @RequestBody AdviceDTO vte) {
-        valueTipsService.update(vte, id);
+    public AdviceDTO update(@PathVariable Integer id, @RequestBody AdviceDTO vte) {
+        return adviceService.update(vte, id);
     }
 
     @DeleteMapping("tips/{id}")
     public void delete(@PathVariable Integer id) {
-        valueTipsService.delete(id);
+        adviceService.delete(id);
     }
 
     @DeleteMapping("tips")
     public void deleteAll() {
-        valueTipsService.deleteAll();
+        adviceService.deleteAll();
     }
 }
