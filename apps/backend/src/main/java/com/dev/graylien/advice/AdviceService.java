@@ -40,17 +40,19 @@ public class AdviceService {
         adviceRepository.deleteById(id);
     }
 
-    void update(AdviceDTO advice, Integer id) {
+    AdviceDTO update(AdviceDTO advice, Integer id) {
         Optional<AdviceEntity> existingAdvice = adviceRepository.findById(id);
         if (existingAdvice.isPresent()) {
             AdviceEntity updatedImage = existingAdvice.get();
             updatedImage.setText(advice.text());
+            return adviceMapper.toDTO(updatedImage);
         } else {
             throw new ImageNotFoundException();
         }
     }
 
-    void addOne(AdviceDTO advice) {
-        adviceRepository.save(adviceMapper.toEntity(advice));
+    AdviceDTO addOne(CreateAdviceDTO advice) {
+        AdviceEntity savedEntity = adviceRepository.save(adviceMapper.toEntityFromCreateDTO(advice));
+        return adviceMapper.toDTO(savedEntity);
     }
 }
