@@ -1,7 +1,5 @@
 package com.dev.graylien.advice;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +7,7 @@ import org.junit.jupiter.api.Test;
 public class AdviceMapperTests {
 
     AdviceMapper adviceMapper;
-    
+
     @BeforeEach
     void setUp(){
         adviceMapper = new AdviceMapper();
@@ -36,13 +34,13 @@ public class AdviceMapperTests {
 
     @Test
     public void toDtoShouldThrowNullPointerExceptionWhenEntityIsNull(){
-        var exp = Assertions.assertThrows(NullPointerException.class, () -> adviceMapper.toDTO(null));
+        var exp = Assertions.assertThrows(IllegalArgumentException.class, () -> adviceMapper.toDTO(null));
         Assertions.assertEquals("Can't map null value to AdviceDTO type",exp.getMessage());
     }
 
     @Test
     public void toEntityShouldThrowNullPointerExceptionWhenEntityIsNull(){
-        var exp = Assertions.assertThrows(NullPointerException.class, () -> adviceMapper.toEntity(null));
+        var exp = Assertions.assertThrows(IllegalArgumentException.class, () -> adviceMapper.toEntity(null));
         Assertions.assertEquals("Can't map null value to AdviceEntity type",exp.getMessage());
     }
 }
