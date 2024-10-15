@@ -33,13 +33,13 @@ public class AdviceMapperTests {
     }
 
     @Test
-    public void toDtoShouldThrowNullPointerExceptionWhenEntityIsNull(){
+    public void toDtoShouldThrowExceptionWhenEntityIsNull(){
         var exp = Assertions.assertThrows(IllegalArgumentException.class, () -> adviceMapper.toDTO(null));
         Assertions.assertEquals("Can't map null value to AdviceDTO type",exp.getMessage());
     }
 
     @Test
-    public void toEntityShouldThrowNullPointerExceptionWhenEntityIsNull(){
+    public void toEntityShouldThrowExceptionWhenDTOIsNull(){
         var exp = Assertions.assertThrows(IllegalArgumentException.class, () -> adviceMapper.toEntity(null));
         Assertions.assertEquals("Can't map null value to AdviceEntity type",exp.getMessage());
     }
