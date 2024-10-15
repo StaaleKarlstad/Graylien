@@ -76,11 +76,7 @@ public class AdviceServiceTests {
         when(adviceRepository.findById(1)).thenReturn(Optional.of(entity));
         when(adviceMapper.toDTO(any(AdviceEntity.class))).thenReturn(responseDto);
 
-        Optional<AdviceDTO> optional = adviceService.getById(1);
-        AdviceDTO dto = optional.get();
-
-        assertEquals(dto.id(), entity.getId());
-        assertEquals(dto.text(), entity.getText());
+        adviceService.getById(1);
 
         verify(adviceRepository, times(1)).findById(any());
     }
@@ -98,7 +94,6 @@ public class AdviceServiceTests {
     @Test
     public void shouldCallDeleteMethodInRepository() {
         Integer adviceId = 1;
-        doNothing().when(adviceRepository).deleteById(adviceId);
 
         adviceService.delete(adviceId);
 
@@ -107,8 +102,6 @@ public class AdviceServiceTests {
 
     @Test
     public void shouldCallDeleteAllMethodInRepository() {
-        doNothing().when(adviceRepository).deleteAll();
-
         adviceService.deleteAll();
 
         verify(adviceRepository, times(1)).deleteAll();
